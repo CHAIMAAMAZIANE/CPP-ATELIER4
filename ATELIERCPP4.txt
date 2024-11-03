@@ -1,0 +1,839 @@
+EXERCICE 1 
+#include <iostream>
+using namespace std;
+
+
+class Complex {
+public:
+    
+    double real; 
+    double imag;
+
+    
+    Complex(double r = 0, double i = 0) : real(r), imag(i) {}
+
+    
+    Complex operator+(const Complex& c) {
+        return Complex(real + c.real, imag + c.imag);
+    }
+
+    
+    Complex operator-(const Complex& c) {
+        return Complex(real - c.real, imag - c.imag);
+    }
+
+    
+    Complex operator*(const Complex& c) {
+        return Complex(real * c.real - imag * c.imag, imag * c.real + real * c.imag);
+    }
+
+    
+    Complex operator/(const Complex& c) {
+        double denominator = c.real * c.real + c.imag * c.imag;
+        return Complex((real * c.real + imag * c.imag) / denominator, (imag * c.real - real * c.imag) / denominator);
+    
+    }
+    void display() {
+        cout << real << " + " << imag << "i" << endl;
+    }
+};
+
+int main() {
+    double r1, i1, r2, i2;
+
+    
+    cout << "Entrez la partie réelle du premier nombre complexe: ";
+    cin >> r1;
+    cout << "Entrez la partie imaginaire du premier nombre complexe: ";
+    cin >> i1;
+
+    
+    cout << "Entrez la partie réelle du deuxième nombre complexe: ";
+    cin >> r2;
+    cout << "Entrez la partie imaginaire du deuxième nombre complexe: ";
+    cin >> i2;
+
+    
+    Complex c1(r1, i1);
+    Complex c2(r2, i2);
+
+    int choice;
+    cout << "Choisissez une opération:\n";
+    cout << "1. Addition\n";
+    cout << "2. Soustraction\n";
+    cout << "3. Multiplication\n";
+    cout << "4. Division\n";
+    cout << "5. Égalité\n";
+    cout << "Votre choix: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 1: {
+            Complex result = c1 + c2; 
+            cout << "Résultat de l'addition: ";
+            result.display();
+            break;
+        }
+        case 2: {
+            Complex result = c1 - c2; 
+            cout << "Résultat de la soustraction: ";
+            result.display();
+            break;
+        }
+        case 3: {
+            Complex result = c1 * c2; 
+            cout << "Résultat de la multiplication: ";
+            result.display();
+            break;
+        }
+        case 4: {
+            Complex result = c1 / c2; 
+            cout << "Résultat de la division: ";
+            result.display();
+            break;
+        }
+        case 5: {
+            if (c1.real == c2.real && c1.imag == c2.imag) {
+                cout << "Les nombres complexes sont égaux." << endl;
+            } else {
+                cout << "Les nombres complexes ne sont pas égaux." << endl;
+            }
+            break;
+        }
+        default:
+            cout << "Choix invalide." << endl;
+    }
+
+    return 0;
+}
+EVERCICE 2 :
+#include <iostream>
+#include <string>
+
+class Animal {
+protected:
+    std::string name;
+    int age;
+
+public:
+  
+    void set_value(std::string n, int a) {
+        name = n;
+        age = a;
+    }
+};
+
+
+class Zebra : public Animal {
+private:
+    std::string origine; 
+public:
+   
+    Zebra(std::string o) : origine(o) {}
+
+  
+    void info() const {
+        std::cout << "Zebra Name: " << name << ", Age: " << age 
+                  << ", origine: " << origine << std::endl;
+    }
+};
+
+
+class Dolphin : public Animal {
+private:
+    std::string habitat;
+
+public:
+    
+    Dolphin(std::string h) : habitat(h) {}
+
+    
+    void info() const {
+        std::cout << "Dolphin Name: " << name << ", Age: " << age 
+                  << ", Habitat: " << habitat << std::endl;
+    }
+};
+
+int main() {
+   
+    Zebra zebra("afrique de sud");
+    Dolphin dolphin("ocean");
+
+    
+    zebra.set_value("Alice", 5);
+    
+    zebra.info();
+
+    dolphin.set_value("dodo", 8);
+    
+    dolphin.info();
+
+    return 0;
+}
+
+EXERCICE 3 :
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Personne {
+protected:
+    string nom;
+    string prenom;
+    string date_naissance;
+
+public:
+    Personne( string n,  string p,  string date)
+        : nom(n), prenom(p), date_naissance(date) {}
+
+    virtual void afficher() const {
+        cout << "Nom: " << nom << "\nPrénom: " << prenom 
+             << "\nDate de naissance: " << date_naissance << endl;
+    }
+};
+
+class Employe : public Personne {
+protected:
+    float salaire;
+
+public:
+  
+    Employe( string n, string p,  string date, float sal)
+        : Personne(n, p, date), salaire(sal) {}
+
+    
+    void afficher() {
+        Personne::afficher(); 
+        cout << "Salaire: " << salaire << endl;
+    }
+};
+
+class Chef : public Employe {
+protected:
+    string service;
+
+public:
+   
+    Chef( string n,  string p, string date, float sal, string serv)
+        : Employe(n, p, date, sal), service(serv) {}
+
+   
+    void afficher() {
+        Employe::afficher(); // Appel de la méthode de la classe de base
+        cout << "Service: " << service << endl;
+    }
+};
+
+class Directeur : public Chef {
+private:
+    string societe;
+
+public:
+   
+    Directeur(string n, string p, string date, float sal,  string serv,  string soc)
+        : Chef(n, p, date, sal, serv), societe(soc) {}
+
+    
+    void afficher() {
+        Chef::afficher(); 
+        cout << "Société: " << societe << endl;
+    }
+};
+
+int main() {
+    Directeur d("lwis", "Omar", "01/01/1995", 7000.0, "Informatique", "TechAvenir");
+    d.afficher();
+
+    return 0;
+}
+EVERCICE 4 :
+#include <iostream>
+#include <cmath> 
+using namespace std;
+
+class Vecteur3D {
+private:
+    float x, y, z;
+
+public:
+
+    Vecteur3D(float x = 0, float y = 0, float z = 0) : x(x), y(y), z(z) {}
+
+    
+    void afficher() const {
+        cout << "(" << x << ", " << y << ", " << z << ")" << endl;
+    }
+
+    
+    Vecteur3D somme(const Vecteur3D& v) const {
+        return Vecteur3D(x + v.x, y + v.y, z + v.z);
+    }
+
+    
+    float produitScalaire(const Vecteur3D& v) const {
+        return (x * v.x + y * v.y + z * v.z);
+    }
+
+ 
+    bool coincide(const Vecteur3D& v) const {
+        return (x == v.x && y == v.y && z == v.z);
+    }
+
+    
+    float norme() const {
+        return sqrt(x * x + y * y + z * z);
+    }
+
+   
+    void normeAdresse(float* resultat) const {
+        *resultat = norme();
+    }
+
+   
+    void normeReference(float& resultat) const {
+        resultat = norme(); 
+    }
+
+  
+    static Vecteur3D normax(const Vecteur3D& v1, const Vecteur3D& v2) {
+        return (v1.norme() > v2.norme()) ? v1 : v2;
+    }
+};
+
+int main() {
+    Vecteur3D v1(1.0, 2.0, 3.0);
+    Vecteur3D v2(4.0, 5.0, 6.0);
+
+    
+    cout << "Vecteur 1: ";
+    v1.afficher();
+    cout << "Vecteur 2: ";
+    v2.afficher();
+
+   
+    Vecteur3D vSomme = v1.somme(v2);
+    cout << "Somme des vecteurs: ";
+    vSomme.afficher();
+
+   
+    float produit = v1.produitScalaire(v2);
+    cout << "Produit scalaire: " << produit << endl;
+
+   
+    bool estCoincide = v1.coincide(v2);
+    cout << "Les vecteurs coïncident: " << (estCoincide ? "Oui" : "Non") << endl;
+
+   
+    float normeV1 = v1.norme();
+    cout << "Norme du vecteur 1: " << normeV1 << endl;
+
+    
+    Vecteur3D vecteurMax = Vecteur3D::normax(v1, v2);
+    cout << "Vecteur avec la plus grande norme: ";
+    vecteurMax.afficher();
+
+   
+    float normeResultat;
+    v1.normeAdresse(&normeResultat);
+    cout << "Norme du vecteur 1 (par adresse): " << normeResultat << endl;
+
+   
+    float normeResultatRef;
+    v1.normeReference(normeResultatRef);
+    cout << "Norme du vecteur 1 (par référence): " << normeResultatRef << endl;
+
+    return 0;
+}
+
+
+EXERCICE 5 
+#include <iostream>
+using namespace std ;
+class test {
+	public:
+	bool call ();
+
+};
+bool test :: call(){
+	static int cmp = 0;
+	cmp++;
+	cout << "la fonction call a ete appelee "<< cmp << " fois" <<endl;
+return true ;
+}
+int main() {
+	test t;
+
+ for (int i = 0; i < 17; i++) {
+        t.call();
+    }
+
+return 0 ;
+}
+
+EXERCICE 6 
+
+
+ #ifndef Point_H_INCLUDED
+#define Point_H_INCLUDED
+class Point {
+private:
+    float x;
+    float y;
+
+public:
+    Point(float a = 10.6, float b = 5.4) : x(a), y(b) {}
+
+    void deplace(float dx, float dy);
+    void afficher() const;
+};
+#endif 
+
+
+#include"compulation cpp.h"
+#include<iostream>
+using namespace std;
+
+void Point::deplace(float dx, float dy) {
+    x += dx;
+    y += dy;
+}
+
+void Point::afficher() const {
+    cout << "Les coordonnées cartesiennes du point : P(" << x << ", " << y << ")" << endl;
+}
+
+
+
+#include"Point.h"
+#include<iostream>
+using namespace std;
+
+int main() {
+    Point p;
+    p.afficher();
+     float dx,dy;
+    cout << "Entrer par combien vous voulez deplacer le point (dx, dy) : ";
+    cin >> dx >> dy;
+    
+    p.deplace(dx, dy);
+    p.afficher();
+
+    return 0;
+}
+
+EXERCICE 7 
+
+#include <iostream>
+using namespace std;
+
+struct Noeud {
+    int donnee;
+    Noeud *suivant;
+    Noeud(int d) : donnee(d), suivant( nullptr) {}
+};
+
+class Pile {
+private:
+    Noeud *sommet;
+
+public:
+    Pile();
+    ~Pile();
+    void push(int valeur);
+    int pop();
+    bool estVide();
+};
+
+Pile::Pile() : sommet(nullptr) {}
+
+Pile::~Pile() {
+    while (!estVide()) {
+        pop();
+    }
+}
+
+void Pile::push(int valeur) {
+    Noeud* nouveauElement = new Noeud(valeur);
+    nouveauElement->suivant = sommet;
+    sommet = nouveauElement;
+}
+
+int Pile::pop() {
+    if (estVide()) {
+        cout << "La pile est vide, rien à dépiler." << endl;
+        return -1;
+    }
+    Noeud* temp = sommet;
+    int valeur = temp->donnee;
+    sommet = sommet->suivant;
+    delete temp;
+    return valeur;
+}
+
+bool Pile::estVide() {
+    return sommet == nullptr;
+}
+
+int main() {
+    Pile p1;
+    Pile p2;
+    int n1, n2;
+
+    cout << "Combien d'éléments voulez-vous empiler dans la première pile (p1) ? ";
+    cin >> n1;
+    cout << "Entrez " << n1 << " valeurs entières pour p1 : ";
+    for (int i = 0; i < n1; i++) {
+        int valeur;
+        cin >> valeur;
+        p1.push(valeur);
+    }
+
+    cout << "Combien d'éléments voulez-vous empiler dans la deuxième pile (p2) ? ";
+    cin >> n2;
+    cout << "Entrez " << n2 << " valeurs entières pour p2 : ";
+    for (int i = 0; i < n2; i++) {
+        int valeur;
+        cin >> valeur;
+        p2.push(valeur);
+    }
+
+    cout << "Éléments dépilés de p1: " << endl;
+    for (int i = 0; i < n1; i++) {
+        cout << p1.pop() << endl;
+    }
+
+    cout << "Éléments dépilés de p2: " << endl;
+    for (int i = 0; i < n2; i++) {
+        cout << p2.pop() << endl;
+    }
+
+    return 0;
+}
+
+EXERCICE 8
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class fichier {
+private:
+    char *p;
+    size_t longueur;
+
+public:
+    fichier() {
+        p = NULL;
+        longueur = 0;
+    }
+    void creation(size_t taille);
+    void remplir();
+    void afficher();
+
+    ~fichier() {
+        delete[] p;
+        cout << "memoire liberee" << endl;
+    }
+};
+
+void fichier::creation(size_t taille) {
+    longueur = taille;
+    p = new char[longueur];
+    cout << "la memoire est allouee" << endl;
+}
+
+void fichier::remplir() {
+    if (p != NULL) {
+        memset(p, 'A', longueur);
+        p[longueur - 1] = '\0';
+        cout << "memoire remplie avec des donnees" << endl;
+    } else {
+        cout << "espace memoire non alloue" << endl;
+    }
+}
+
+void fichier::afficher() {
+    if (p != NULL) {
+        cout << p << endl;
+    } else {
+        cout << "espace memoire non alloue" << endl;
+    }
+}
+
+int main() {
+    fichier *f = new fichier();
+    f->creation(17);
+    f->remplir();
+    f->afficher();
+    delete f;
+
+    return 0;
+}
+EXERCICE9:
+#include <iostream>
+
+using namespace std;
+
+struct Element {
+    int valeur;
+    Element* ptr; 
+    Element(int vl1) : valeur(vl1), ptr(nullptr) {}
+};
+
+class Liste {
+private:
+    Element* tete; 
+public:
+    Liste() : tete(nullptr) {}
+    ~Liste();
+    void ajouter(int vl1);
+    void supprimer();
+    void afficher();
+};
+
+Liste::~Liste() {
+    while (tete != nullptr) {
+        supprimer();
+    }
+}
+
+void Liste::ajouter(int vl1) {
+    Element* noeud = new Element(vl1);
+    noeud->ptr = tete; 
+    tete = noeud;
+}
+
+void Liste::supprimer() {
+    if (tete != nullptr) {
+        Element* temp = tete;
+        tete = tete->ptr; // Met à jour tete
+        delete temp; 
+    }
+}
+
+void Liste::afficher() {
+    Element* ptr = tete; 
+    while (ptr != nullptr) {
+        cout << ptr->valeur << " ";  
+        ptr = ptr->ptr; 
+    }
+    cout << endl; 
+}
+
+int main() {
+    Liste liste; 
+    liste.ajouter(77);
+    liste.ajouter(11);
+    liste.ajouter(800);
+    cout << "Liste après ajout : ";
+    liste.afficher();
+    liste.supprimer();
+    cout << "Liste après suppression : ";
+    liste.afficher();
+    return 0;  
+}#include <iostream>
+using namespace std;
+
+struct Element {
+    int valeur;
+    Element* ptr; 
+    Element(int vl1) : valeur(vl1), ptr(nullptr) {}
+};
+
+class Liste {
+private:
+    Element* tete; 
+public:
+    Liste() : tete(nullptr) {}
+    ~Liste();
+    void ajouter(int vl1);
+    void supprimer();
+    void afficher();
+};
+
+Liste::~Liste() {
+    while (tete != nullptr) {
+        supprimer();
+    }
+}
+
+void Liste::ajouter(int vl1) {
+    Element* noeud = new Element(vl1);
+    noeud->ptr = tete; 
+    tete = noeud;
+}
+
+void Liste::supprimer() {
+    if (tete != nullptr) {
+        Element* temp = tete;
+        tete = tete->ptr; // Met à jour tete
+        delete temp; 
+    }
+}
+
+void Liste::afficher() {
+    Element* ptr = tete; 
+    while (ptr != nullptr) {
+        cout << ptr->valeur << " ";  
+        ptr = ptr->ptr; 
+    }
+    cout << endl; 
+}
+
+int main() {
+    Liste liste; 
+    liste.ajouter(77);
+    liste.ajouter(11);
+    liste.ajouter(800);
+    cout << "Liste après ajout : ";
+    liste.afficher();
+    liste.supprimer();
+    cout << "Liste après suppression : ";
+    liste.afficher();
+    return 0;  
+}
+EXERCICE10 
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string dateHeure;
+    
+    cout << "Entrez la date et l'heure sous la forme JJMMAAAAHHNN : ";
+    cin >> dateHeure;
+
+    if (dateHeure.length() != 12) {
+        cout << "Format invalide. Veuillez entrer exactement 12 chiffres." << endl;
+        return 1;
+    }
+
+   
+    string jour = dateHeure.substr(0, 2);
+    string mois = dateHeure.substr(2, 2);
+    string annee = dateHeure.substr(4, 4);
+    string heure = dateHeure.substr(8, 2);
+    string minutes = dateHeure.substr(10, 2);
+
+    int jourInt = stoi(jour);
+    int moisInt = stoi(mois);
+
+  
+    string nomsMois[] = {
+        "janvier", "février", "mars", "avril",
+        "mai", "juin", "juillet", "août",
+        "septembre", "octobre", "novembre", "décembre"
+    };
+
+ 
+    cout << "Date : " << jourInt << " " << nomsMois[moisInt] << " " << annee << endl;
+    cout << "Heure : " << heure << ":" << minutes << endl;
+
+    return 0;
+}
+
+EXERCICE 11 :
+#include <iostream>
+#include <vector>
+#include <limits>
+#include <algorithm> 
+using namespace std;
+
+class Traitement {
+private: 
+    vector<int> vect; 
+public: 
+    Traitement() {};
+    void initialise();
+    void show(int index = 0); 
+    friend double moyenne(const Traitement& t); 
+    friend double median(const Traitement& t); 
+    ~Traitement() {};
+};
+
+void Traitement::initialise() {
+    int nombre;
+
+    cout << "Veuillez entrer 15 entiers pairs et non nuls :" << endl;
+
+    for (int i = 0; i < 15; i++) {
+        while (true) {
+            cout << "Entrez le nombre " << (i + 1) << ": "; 
+            cin >> nombre; 
+
+            if (cin.fail()) {
+                cout << "Veuillez entrer des entiers valides :" << endl;
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                continue; 
+            }
+
+            if (nombre == 0) {
+                cout << "On n'accepte pas les valeurs nulles." << endl;
+                continue; 
+            }
+            if (nombre % 2 != 0) {
+                cout << "On n'accepte que des valeurs paires." << endl;
+                continue; 
+            }
+
+            vect.push_back(nombre);
+            break;
+        }
+    }
+
+    cout << "Les nombres saisis sont : ";
+    show();
+    cout << endl;
+}
+
+
+void Traitement::show(int index) {
+    if (index < vect.size()) { 
+        cout << vect[index] << " "; 
+        show(index + 1); 
+    }
+}
+
+
+double moyenne(const Traitement& t) {
+    if (t.vect.empty()) return 0.0; 
+
+    double sum = 0.0;
+    for (int num : t.vect) {
+        sum += num; 
+    }
+    return sum / t.vect.size(); 
+}
+
+
+double median(const Traitement& t) {
+    if (t.vect.empty()) return 0.0; 
+
+
+    vector<int> sortedVect = t.vect;
+    sort(sortedVect.begin(), sortedVect.end());
+
+    size_t size = sortedVect.size();
+    if (size % 2 == 0) {
+       
+        return (sortedVect[size / 2 - 1] + sortedVect[size / 2]) / 2.0;
+    } else {
+        
+        return sortedVect[size / 2];
+    }
+}
+
+int main() {
+    Traitement traitement; 
+    traitement.initialise(); 
+
+
+    cout << "Moyenne : " << moyenne(traitement) << endl;
+    cout << "Médiane : " << median(traitement) << endl;
+
+    return 0;
+}
+
+
